@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Patrick Hand', cursive;
+    }
+    body {
+      background: #ffe6f0;
+      overflow-x: hidden;
+    }
+    .screen {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Tambahkan ini */
+    background-color: #ffe6f0;
+    padding: 20px;
+    overflow-y: auto;
+    }
+
+    .pin-container {
+      background: #d8c7f9;
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+    }
+    .pin-container input {
+      font-size: 24px;
+      padding: 10px;
+      width: 100px;
+      border: none;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .pin-container button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #ff80b3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .message {
+      margin-top: 10px;
+      color: red;
+    }
+    #musicPopup {
+      position: absolute;
+      width: 80%;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: center;
+      display: none;
+    }
+    #musicPopup button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #ff66a3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    #homepage {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .profile-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #ffb6c1;
+      margin-bottom: 20px;
+    }
+    .greeting {
+      font-size: 24px;
+      color: #ff3399;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .box-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    .box-grid button {
+      padding: 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #ffcce6;
+      border-radius: 10px;
+      color: #ff3399;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .box-grid button:hover {
+      background-color: #ffb6c1;
+    }
+    #ucapanPage, #hatikuPage {
+      display: none;
+      padding: 30px;
+      background-color: #fff;
+      height: 100vh;
+      overflow-y: auto;
+      color: #333;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .back-btn {
+      margin-top: 20px;
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ff80b3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .typing {
+      white-space: pre-line;
+    }
+ .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+  }
+  .gallery-grid img {
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+  .gallery-grid img:hover {
+    transform: scale(1.1) rotateZ(1deg);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.05) saturate(1.2);
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: none;
+  }
+  .lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+  }
+  #galleryIntro {
+    font-size: 24px;
+    color: #ff3399;
+    text-align: center;
+    margin-bottom: 20px;
+    white-space: pre-line;
+  }
+  .text-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 30px;
+  background-color: #fff;
+  overflow-y: auto;
+  color: #333;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+  </style>
+</head>
+<body>
+
+<!-- PIN Input -->
+<div class="screen" id="pinScreen">
+  <div class="pin-container">
+    <p><strong>Enter ur PIN yummm (using ur current age)</strong></p>
+    <input type="number" id="pinInput" />
+    <button onclick="validatePin()">login</button>
+    <div class="message" id="pinMessage"></div>
+  </div>
+</div>
+
+<!-- Music Popup -->
+<div class="screen" id="musicPopup">
+  <p>WOOWWO YUMNA KEPALA 2 CKCKCKCK! </p>
+    <p>aku mau kasih kamu lagu kesukaanku akhir-akhir ini ni yumm karena sepertinya relate sm our condition (maybe)</p>
+  <button onclick="playMusic()">Play Music</button>
+</div>
+  
+  <!-- Lightbox Viewer -->
+<div class="lightbox" id="lightbox" onclick="this.style.display='none'">
+  <img id="lightbox-img" src="" />
+</div>
+
+
+<!-- Homepage -->
+<div class="screen" id="homepage">
+  <img src="assets/img/profil.jpg" class="profile-photo" alt="Foto Bersama">
+  <div class="greeting">Happy Birthdayyyyy, Yuminaaaaa💖</div>
+  <div class="box-grid">
+    <button onclick="showPage('ucapanPage')">Birthday Greetings</button>
+    <button onclick="showPage('galleryPage')">Little Gallery</button>
+    <button onclick="showPage('hatikuPage')">My Deepest Words</button>
+    <button onclick="showPage('specialPage')">Special For Uuu</button>
+  </div>
+</div>
+
+<!-- Ucapan Page -->
+<div id="ucapanPage" class="text-page">
+  <div class="typing" id="ucapanText"></div>
+  <div class="button-wrapper">
+    <button class="back-btn" onclick="goHome()">← Back</button>
+  </div>
+</div>
+
+<!-- Hatiku Page -->
+<div id="hatikuPage" class="text-page">
+  <div class="typing" id="hatikuText"></div>
+  <div class="button-wrapper">
+    <button class="back-btn" onclick="goHome()">← Back</button>
+  </div>
+</div>
+
+
+<!-- Gallery Page -->
+<div id="galleryPage" class="screen" style="display:none; background-color: #fff; flex-direction: column; padding: 20px; overflow-y: auto;">
+  <h2 style="color: #ff3399; margin-bottom: 20px;">Little Gallery</h2>
+  <div id="galleryIntro"></div>
+  <div class="gallery-grid" id="galleryGrid" style="display: none;">
+    <img src="assets/img/1.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/2.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/3.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/4.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/5.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/6.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/7.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/8.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/9.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/10.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/11.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/12.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/13.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/14.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/15.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/16.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/17.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/18.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/19.jpg" onclick="zoomImage(this)" />
+    <img src="assets/img/20.jpg" onclick="zoomImage(this)" />
+  </div>
+  <button class="back-btn" style="margin-top: 30px;" onclick="goHome()">← Back</button>
+</div>
+
+
+<!-- Special For U Page -->
+<div id="specialPage" class="screen" style="display:none; background-color: #ffe6f0;">
+  <iframe
+    src="https://varaaaaa.github.io/flowers-for-someone/"
+    style="border: none; width: 100%; height: 100vh;"
+    title="Flowers for Someone"
+  ></iframe>
+  <button class="back-btn" style="position:absolute; top: 20px; left: 20px;" onclick="goHome()">← Back</button>
+</div>
+
+<!-- Audio -->
+<audio id="bgMusic" loop>
+  <source src="assets/music/song.mp3" type="audio/mp3">
+</audio>
+
+<script>
+  const textUcapan = `Selamat ulang tahun, sahabatku tersayang! 🎉🎂✨
+
+Hari ini adalah hari yang sangat spesial, bukan hanya karena kamu bertambah usia, tetapi karena dunia pernah diberi anugerah luar biasa saat kamu lahir. Aku benar-benar bersyukur bisa mengenalmu dan menjadikanmu bagian dari hidupku. Kamu bukan hanya sahabat biasa — kamu adalah rumah, tempat ternyaman untuk berbagi cerita, tawa, tangis, dan rahasia.
+
+Selama ini, kamu selalu hadir dalam suka dan duka. Kamu tahu kapan aku butuh teman bicara, kapan aku hanya perlu diam tapi tidak sendiri. Kamu tahu bagaimana caranya membuatku tertawa bahkan di hari-hari paling gelap sekalipun. Terima kasih sudah bertahan bersamaku selama ini. Terima kasih untuk kesabaranmu, keikhlasanmu, dan cinta yang tulus yang tak pernah meminta balasan.
+
+Di hari ulang tahunmu ini, aku hanya ingin kamu tahu betapa berharganya dirimu. Kamu adalah pribadi yang kuat, cerdas, penuh empati, dan memiliki hati yang begitu luas. Jangan pernah ragu dengan dirimu sendiri, karena kamu punya potensi yang luar biasa untuk meraih semua hal yang kamu impikan.
+
+Aku doakan semoga tahun ini dipenuhi dengan kebahagiaan yang tak terduga, keberuntungan yang datang tanpa dicari, dan keberanian untuk terus melangkah maju. Semoga segala doa dan harapanmu yang belum tercapai segera dikabulkan oleh Tuhan. Dan yang paling penting, semoga kamu selalu dikelilingi oleh orang-orang yang tulus menyayangimu, sebagaimana kamu selalu menyayangi kami semua.
+
+Tetap jadi kamu yang luar biasa, ya. Jangan pernah kehilangan cahaya yang ada dalam dirimu, karena dunia butuh lebih banyak orang sepertimu.
+
+Sekali lagi, selamat ulang tahun, sahabatku tersayang. Aku bangga bisa menyebutmu sahabat. Mari kita terus berjalan bersama, menua bersama, dan menciptakan lebih banyak kenangan indah di hari-hari mendatang.
+
+Dengan cinta dan peluk hangat,`;
+
+const textUcapan2 = `Selamat ulang tahun, sahabatku tersayang! 🎉🎂✨
+
+Hari ini adalah hari yang sangat spesial, bukan hanya karena kamu bertambah usia, tetapi karena dunia pernah diberi anugerah luar biasa saat kamu lahir. Aku benar-benar bersyukur bisa mengenalmu dan menjadikanmu bagian dari hidupku. Kamu bukan hanya sahabat biasa — kamu adalah rumah, tempat ternyaman untuk berbagi cerita, tawa, tangis, dan rahasia.
+
+Selama ini, kamu selalu hadir dalam suka dan duka. Kamu tahu kapan aku butuh teman bicara, kapan aku hanya perlu diam tapi tidak sendiri. Kamu tahu bagaimana caranya membuatku tertawa bahkan di hari-hari paling gelap sekalipun. Terima kasih sudah bertahan bersamaku selama ini. Terima kasih untuk kesabaranmu, keikhlasanmu, dan cinta yang tulus yang tak pernah meminta balasan.
+
+Di hari ulang tahunmu ini, aku hanya ingin kamu tahu betapa berharganya dirimu. Kamu adalah pribadi yang kuat, cerdas, penuh empati, dan memiliki hati yang begitu luas. Jangan pernah ragu dengan dirimu sendiri, karena kamu punya potensi yang luar biasa untuk meraih semua hal yang kamu impikan.
+
+Aku doakan semoga tahun ini dipenuhi dengan kebahagiaan yang tak terduga, keberuntungan yang datang tanpa dicari, dan keberanian untuk terus melangkah maju. Semoga segala doa dan harapanmu yang belum tercapai segera dikabulkan oleh Tuhan. Dan yang paling penting, semoga kamu selalu dikelilingi oleh orang-orang yang tulus menyayangimu, sebagaimana kamu selalu menyayangi kami semua.
+
+Tetap jadi kamu yang luar biasa, ya. Jangan pernah kehilangan cahaya yang ada dalam dirimu, karena dunia butuh lebih banyak orang sepertimu.
+
+Sekali lagi, selamat ulang tahun, sahabatku tersayang. Aku bangga bisa menyebutmu sahabat. Mari kita terus berjalan bersama, menua bersama, dan menciptakan lebih banyak kenangan indah di hari-hari mendatang.
+
+Dengan cinta dan peluk hangat,`;
+
+ 
+
+  function validatePin() {
+    const pin = document.getElementById('pinInput').value;
+    const message = document.getElementById('pinMessage');
+    if (pin == '20') {
+      document.getElementById('pinScreen').style.display = 'none';
+      document.getElementById('musicPopup').style.display = 'flex';
+    } else {
+      message.textContent = 'PIN salah! Coba lagi dengan usiamu sekarang.';
+    }
+  }
+
+  function playMusic() {
+    const audio = document.getElementById('bgMusic');
+    audio.play();
+    document.getElementById('musicPopup').style.display = 'none';
+    document.getElementById('homepage').style.display = 'flex';
+  }
+
+  function animateTyping(targetId, text) {
+    const element = document.getElementById(targetId);
+    element.textContent = '';
+    let i = 0;
+    const interval = setInterval(() => {
+      element.textContent += text.charAt(i);
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, 20);
+  }
+
+  function goHome() {
+    document.getElementById('homepage').style.display = 'flex';
+    document.getElementById('ucapanPage').style.display = 'none';
+    document.getElementById('hatikuPage').style.display = 'none';
+    document.getElementById('specialPage').style.display = 'none';
+    document.getElementById('galleryPage').style.display = 'none';
+  }
+
+  function zoomImage(img) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    lightboxImg.src = img.src;
+    lightbox.style.display = 'flex';
+  }
+
+  function zoomImage(img) {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  lightboxImg.src = img.src;
+  lightbox.style.display = 'flex';
+}
+
+// Fungsi untuk animasi ketikan
+function animateIntroTyping(text, callback) {
+  const introEl = document.getElementById('galleryIntro');
+  introEl.textContent = '';
+  let i = 0;
+  const interval = setInterval(() => {
+    introEl.textContent += text.charAt(i);
+    i++;
+    if (i >= text.length) {
+      clearInterval(interval);
+      if (callback) setTimeout(callback, 2000); // jeda 1 detik setelah selesai ketik
+    }
+  }, 50);
+}
+
+// Fungsi untuk menampilkan animasi fadeIn per gambar
+function showGalleryAnimation() {
+  const grid = document.getElementById('galleryGrid');
+  grid.style.display = 'grid';
+
+  const images = grid.querySelectorAll('img');
+
+  images.forEach((img) => {
+    img.style.opacity = '0';
+    img.style.transform = 'scale(0.8)';
+    img.style.animation = 'none'; // Reset animasi sebelumnya
+  });
+
+  // Gunakan requestAnimationFrame untuk memastikan animasi dijalankan tepat waktu
+  requestAnimationFrame(() => {
+    images.forEach((img, i) => {
+      img.style.animation = `fadeIn 0.6s ease forwards`;
+      img.style.animationDelay = `${i * 0.5}s`;
+    });
+  });
+}
+
+// Override showPage
+const originalShowPage = window.showPage;
+window.showPage = function(pageId) {
+  document.getElementById('homepage').style.display = 'none';
+  document.getElementById('ucapanPage').style.display = 'none';
+  document.getElementById('hatikuPage').style.display = 'none';
+  document.getElementById('specialPage').style.display = 'none';
+  document.getElementById('galleryPage').style.display = 'none';
+
+  if (pageId === 'galleryPage') {
+    document.getElementById('galleryPage').style.display = 'flex';
+    document.getElementById('galleryGrid').style.display = 'none';
+    document.getElementById('galleryIntro').style.display = 'block';
+    animateIntroTyping("Sedikit dump foto-foto kita (terutama waktu di malang), enjoy it yum", () => {
+      document.getElementById('galleryIntro').style.display = 'none';
+      showGalleryAnimation();
+    });
+  } else {
+    document.getElementById(pageId).style.display = 'flex';
+  }
+
+  if (pageId === 'ucapanPage') animateTyping('ucapanText', textUcapan);
+  if (pageId === 'hatikuPage') animateTyping('hatikuText', textUcapan2);
+};
+</script>
+
+</body>
+</html>
