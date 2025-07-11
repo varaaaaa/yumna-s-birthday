@@ -504,14 +504,29 @@ button {
 
 
 <!-- Special For U Page -->
-<div id="specialPage" class="screen" style="display:none; background-color: #ffe6f0;">
-  <iframe
-    src="https://varaaaaa.github.io/flowers-for-someone/"
-    style="border: none; width: 100%; height: 100vh;"
-    title="Flowers for Someone"
+<!-- Special For U Page -->
+<div id="specialPage" class="screen" style="display:none; background-color: #ffe6f0; flex-direction: column; justify-content: center; align-items: center; padding: 40px;">
+  
+  <!-- Iframe yang akan berubah isinya -->
+  <iframe 
+    id="specialIframe"
+    src="https://varaaaaa.github.io/lilin/"
+    style="border: none; width: 100%; height: 70vh; margin-bottom: 20px;"
+    title="Special Content"
   ></iframe>
-  <button class="back-btn" style="position:absolute; top: 20px; left: 20px;" onclick="goHome()">← Back</button>
+
+  <!-- Tombol untuk mengganti isi iframe -->
+  <button 
+    id="flowerBtn"
+    onclick="openFlower()" 
+    class="back-btn" 
+    style="background-color: #cc66cc;">
+    🌸 Open Me!
+  </button>
+  <button class="back-btn" style="margin-top: 20px;" onclick="goHome()">← Back</button>
 </div>
+
+
 
 <!-- Audio -->
 <audio id="bgMusic" loop>
@@ -519,37 +534,41 @@ button {
 </audio>
 
 <script>
-  const textUcapan = `Selamat ulang tahun, sahabatku tersayang! 🎉🎂✨
+  const textUcapan = `Happy 20th Birthday, Yumiina! 🎉🎂✨
 
-Hari ini adalah hari yang sangat spesial, bukan hanya karena kamu bertambah usia, tetapi karena dunia pernah diberi anugerah luar biasa saat kamu lahir. Aku benar-benar bersyukur bisa mengenalmu dan menjadikanmu bagian dari hidupku. Kamu bukan hanya sahabat biasa — kamu adalah rumah, tempat ternyaman untuk berbagi cerita, tawa, tangis, dan rahasia.
+Yum, we’ve been through so much together since 4 years ago, sharing stories, laughter, and even quiet moments. You’re not just a friend to me anymore, you’re like my own sister, someone who understands me and stays by my side no matter what. i feel so lucky to have grown up with you and to still have you close in my life.
 
-Selama ini, kamu selalu hadir dalam suka dan duka. Kamu tahu kapan aku butuh teman bicara, kapan aku hanya perlu diam tapi tidak sendiri. Kamu tahu bagaimana caranya membuatku tertawa bahkan di hari-hari paling gelap sekalipun. Terima kasih sudah bertahan bersamaku selama ini. Terima kasih untuk kesabaranmu, keikhlasanmu, dan cinta yang tulus yang tak pernah meminta balasan.
+I’ve seen you face both beautiful days and hard times, and through it all, you’ve stayed strong yum. You always find a way to stand back up, even when life tries to push you down. You're truly one of the most amazing, brave, and caring people i know.
 
-Di hari ulang tahunmu ini, aku hanya ingin kamu tahu betapa berharganya dirimu. Kamu adalah pribadi yang kuat, cerdas, penuh empati, dan memiliki hati yang begitu luas. Jangan pernah ragu dengan dirimu sendiri, karena kamu punya potensi yang luar biasa untuk meraih semua hal yang kamu impikan.
+Now that you're turning 20, i hope this next chapter brings you even more happiness, courage, and growth. i pray that your heart always stays full of love, that your dreams keep getting closer each day, and that life gives you everything you’ve been hoping for. You deserve so much good, and i’ll always believe in you.
 
-Aku doakan semoga tahun ini dipenuhi dengan kebahagiaan yang tak terduga, keberuntungan yang datang tanpa dicari, dan keberanian untuk terus melangkah maju. Semoga segala doa dan harapanmu yang belum tercapai segera dikabulkan oleh Tuhan. Dan yang paling penting, semoga kamu selalu dikelilingi oleh orang-orang yang tulus menyayangimu, sebagaimana kamu selalu menyayangi kami semua.
+Ofc i also pray for your journey in dentistry. i hope you find passion and purpose in every step. May God bless your hands to heal, your heart to care, and your path with endless learning and success. I know this is a big journey, but you're more than strong enough to walk it. You’ve got what it takes.
 
-Tetap jadi kamu yang luar biasa, ya. Jangan pernah kehilangan cahaya yang ada dalam dirimu, karena dunia butuh lebih banyak orang sepertimu.
+Thank you for being such a wonderful friend all these years. And i just want to say I’m so proud of you, proud of how far you’ve come, proud of who you are, and proud of who you’re becoming. 
 
-Sekali lagi, selamat ulang tahun, sahabatku tersayang. Aku bangga bisa menyebutmu sahabat. Mari kita terus berjalan bersama, menua bersama, dan menciptakan lebih banyak kenangan indah di hari-hari mendatang.
+And if someday the world feels too heavy, i hope you always remember this... you're never walking alone. i’m always just one call away, forever rooting for you, and forever proud of you. Here’s to your beautiful soul, your bright future, and all the love that surrounds you today and always.
 
-Dengan cinta dan peluk hangat,`;
+Tetep jadi kamu yang luar biasa ya yum. Jangan pernah kehilangan cahaya yang ada dalam dirimu, karena dunia butuh lebih banyak orang kayak kamu...
 
-const textUcapan2 = `Selamat ulang tahun, sahabatku tersayang! 🎉🎂✨
+I’m excited to see what the future holds for you...
 
-Hari ini adalah hari yang sangat spesial, bukan hanya karena kamu bertambah usia, tetapi karena dunia pernah diberi anugerah luar biasa saat kamu lahir. Aku benar-benar bersyukur bisa mengenalmu dan menjadikanmu bagian dari hidupku. Kamu bukan hanya sahabat biasa — kamu adalah rumah, tempat ternyaman untuk berbagi cerita, tawa, tangis, dan rahasia.
+With Love, Vara`;
 
-Selama ini, kamu selalu hadir dalam suka dan duka. Kamu tahu kapan aku butuh teman bicara, kapan aku hanya perlu diam tapi tidak sendiri. Kamu tahu bagaimana caranya membuatku tertawa bahkan di hari-hari paling gelap sekalipun. Terima kasih sudah bertahan bersamaku selama ini. Terima kasih untuk kesabaranmu, keikhlasanmu, dan cinta yang tulus yang tak pernah meminta balasan.
+const textUcapan2 = `Yum,
 
-Di hari ulang tahunmu ini, aku hanya ingin kamu tahu betapa berharganya dirimu. Kamu adalah pribadi yang kuat, cerdas, penuh empati, dan memiliki hati yang begitu luas. Jangan pernah ragu dengan dirimu sendiri, karena kamu punya potensi yang luar biasa untuk meraih semua hal yang kamu impikan.
+Kadang aku masih nggak percaya sii, kamu beneran ninggalin malang... Rasanya kek baru bentar banget kita satu kota, tapi sekarang kamu harus mulai lagi dari awal di tempat yang baru. Aku tau ini bukan hal yang mudah buat kamu, apalagi harus ninggalin mimpi kecil kamu yang udah kamu jalanin selama setahun ini. Aku ngerti banget, itu pasti berat. Tapi aku juga tau kamu kuat, dan meskipun jalannya berubah, kamu pasti bisa bikin jalan baru itu tetep berarti.
 
-Aku doakan semoga tahun ini dipenuhi dengan kebahagiaan yang tak terduga, keberuntungan yang datang tanpa dicari, dan keberanian untuk terus melangkah maju. Semoga segala doa dan harapanmu yang belum tercapai segera dikabulkan oleh Tuhan. Dan yang paling penting, semoga kamu selalu dikelilingi oleh orang-orang yang tulus menyayangimu, sebagaimana kamu selalu menyayangi kami semua.
+Dan aku mau minta maaf, Yum. Maafff bangettt karena aku ngga cukup peka. Karena terlalu sibuk sama diriku sendiri, aku sampe ngga sadar kalau kamu ternyata lagi ngga baik-baik aja. Sampe harus ke psikiater pun aku nggak tau, dan itu nyesek sih... padahal kamu sendiri selalu ada buat aku, tapi aku ngga ada di momen kamu lagi butuh-butuhnya ditemenin. Aku bener-bener minta maaf ya... Kamu ngga layak ngelewatin itu sendirian.
 
-Tetap jadi kamu yang luar biasa, ya. Jangan pernah kehilangan cahaya yang ada dalam dirimu, karena dunia butuh lebih banyak orang sepertimu.
+Tapi terima kasih ya yum kamu tetap jalan terus, tetap bertahan, bahkan sampe detik ini. Kamu selalu kasih kesan ceria dan kuat, padahal di balik itu banyak hal yang mungkin nggak semua orang tau. Dan hari ini aku cuma pengen bilang klau aku bangga banget sama kamu. Bangga karena kamu tetap berusaha, tetap jalan, meskipun semuanya nggak selalu sesuai harapan kamu.
 
-Sekali lagi, selamat ulang tahun, sahabatku tersayang. Aku bangga bisa menyebutmu sahabat. Mari kita terus berjalan bersama, menua bersama, dan menciptakan lebih banyak kenangan indah di hari-hari mendatang.
+Pindah ke FKG bukan berarti kamu ninggalin mimpi yang kemarin, tapi kamu lagi nulis bab baru yang beda aja. Dan mungkin suatu hari nanti kamu bakal lihat, semua yang kamu lewati ini bukan sia-sia. Ilmu, luka, dan pengalaman kemarin akan tetep jadi bagian penting dari kamu. Jadi jangan ngerasa gagal ya....
 
-Dengan cinta dan peluk hangat,`;
+Jalanmu masih panjang, Yum. Tapi kamu harus tau kalau kamu nggak sendiri. Kalau kamu butuh cerita, butuh ruang, aku di sini. Mungkin aku ngga selalu tau harus bilang apa dan mungkin kadang aku ga secepet itu ngerespon kamu, tapi aku bakal belajar dan berusaha jadi teman yang lebih hadir buat kamu. Semangat ya.... Aku percaya kamu bisa...
+
+Perjalanan ini mungkin ngga mudah, tapi kamu ngga perlu melaluinya dengan sempurna yum. Cukup jalani semaksimal kamu bisa. Dan kapanpun kamu ngerasa cape, kamu boleh banget untuk istirahat sejenak...
+
+Malang akan selalu kangen kamu..`;
 
  
 
@@ -562,6 +581,13 @@ Dengan cinta dan peluk hangat,`;
     } else {
       message.textContent = 'PIN salah! Coba lagi dengan usiamu sekarang.';
     }
+  }
+
+   function openFlower() {
+    // Ganti isi iframe
+    document.getElementById('specialIframe').src = "https://varaaaaa.github.io/bunga1/";
+    // Sembunyikan tombol setelah ditekan
+    document.getElementById('flowerBtn').style.display = "none";
   }
 
   function playMusic() {
@@ -666,6 +692,5 @@ window.showPage = function(pageId) {
   if (pageId === 'hatikuPage') animateTyping('hatikuText', textUcapan2);
 };
 </script>
-
 </body>
 </html>
